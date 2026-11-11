@@ -1,0 +1,57 @@
+# ===================== CRITÈRES (modifiables aussi via Telegram : /budget, /localisation) =====================
+search:
+  max_budget_fcfa: 150000
+  prefer_unfurnished: true
+  max_age_days: 14          # au-delà, l'annonce est signalée "ancienne" et perd des points
+  min_relevance: 60         # en dessous, l'annonce n'est pas envoyée
+  zones:
+    - name: "Riviera 2"
+      aliases: ["riviera 2", "riviera2", "riviera ii", "rivera 2"]
+    - name: "Riviera Anono"
+      aliases: ["anono", "riviera anono"]
+    - name: "Riviera Attoban"
+      aliases: ["attoban", "riviera attoban"]
+    - name: "Blockhaus"
+      aliases: ["blockhaus", "block haus", "blokhaus"]
+    - name: "Deux-Plateaux"
+      aliases: ["deux plateaux", "2 plateaux", "deux-plateaux", "2plateaux", "ii plateaux"]
+
+# ===================== GEMINI (quota gratuit) =====================
+gemini:
+  model: "gemini-2.5-flash-lite"   # vérifiez le modèle gratuit le plus généreux sur https://ai.google.dev/gemini-api/docs/rate-limits
+  max_calls_per_run: 40            # plafond par exécution pour rester dans le quota gratuit
+  seconds_between_calls: 6.5       # ~9 requêtes/minute
+
+# ===================== PLANIFICATION =====================
+schedule:
+  daily_digest_hour_utc: 20        # Abidjan = UTC+0
+  daemon_interval_minutes: 30      # utilisé uniquement en mode --daemon
+  fetch_delay_seconds: 2           # politesse envers les sites
+  max_new_per_source: 15           # nb max de nouvelles annonces examinées par source et par passage
+
+# ===================== SOURCES =====================
+# ⚠️ Les URL ci-dessous sont des points de départ NON VÉRIFIÉS : les sites changent souvent.
+# Pour chaque source : ouvrez le site, filtrez (Location > Appartement > Cocody...), copiez l'URL de
+# la page de résultats ici, puis lancez :  python -m src.main --check-sources
+# "link_regex" (optionnel) = motif des liens d'annonces individuelles (ex: "/annonce/").
+sources:
+  # --- A. Petites annonces ---
+  - {name: "CoinAfrique", type: html, enabled: true, url: "https://ci.coinafrique.com/categorie/appartements", link_regex: "/annonce/"}
+  - {name: "Afrimalin", type: html, enabled: true, url: "https://afrimalin.ci"}
+  - {name: "Jumli", type: html, enabled: true, url: "https://jumli.africa"}
+  - {name: "Abidjan.net", type: html, enabled: true, url: "https://www.abidjan.net"}
+  # --- B. Immobilier spécialisé ---
+  - {name: "L'Officiel de l'Immobilier", type: html, enabled: true, url: "https://officielimmobilier.net"}
+  - {name: "Moboo", type: html, enabled: true, url: "https://moboo.ci"}
+  - {name: "Macaci", type: html, enabled: true, url: "https://macaci.com"}
+  # --- C. Agences ---
+  - {name: "ISIS Immobilier", type: html, enabled: true, url: "https://isis-immobilier.com"}
+  - {name: "H&A Properties", type: html, enabled: true, url: "https://ha-properties.com"}
+  - {name: "Proximmo CI", type: html, enabled: true, url: "https://proximmoci.com"}
+  - {name: "SCI Les Rosiers", type: html, enabled: true, url: "https://scilesrosiers.com"}
+  - {name: "Luxury Home Abidjan", type: html, enabled: true, url: "https://luxuryhomeabidjan.com"}
+  - {name: "MD Immobilier", type: html, enabled: true, url: "https://mdimmo-ci.com"}
+  # --- D. Canaux Telegram publics (aperçu web t.me/s/<nom>) : ajoutez les vôtres ---
+  # - {name: "Canal exemple", type: telegram_channel, enabled: true, channel: "nom_du_canal_public"}
+  # --- E. Flux RSS (ex: Google Alerts > "Remettre dans : flux RSS") : voir README ---
+  # - {name: "Alerte Google Riviera", type: rss, enabled: true, url: "https://www.google.com/alerts/feeds/XXXX/YYYY"}

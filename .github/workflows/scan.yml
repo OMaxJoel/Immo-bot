@@ -1,0 +1,43 @@
+name: Veille immobilière
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # GitHub peut retarder les exécutions de quelques minutes
+  workflow_dispatch:
+
+concurrency:
+  group: immo-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      # La base SQLite (annonces vues, réglages) est conservée entre les exécutions via le cache GitHub
+      - name: Restaurer la base
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: immo-db-${{ github.run_id }}
+          restore-keys: immo-db-
+
+      - name: Scan
+        run: python -m src.main --once
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Sauvegarder la base
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: immo-db-${{ github.run_id }}
