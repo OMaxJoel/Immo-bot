@@ -18,7 +18,7 @@ search:
 
 # ===================== GEMINI (quota gratuit) =====================
 gemini:
-  model: "gemini-2.5-flash-lite"   # vérifiez le modèle gratuit le plus généreux sur https://ai.google.dev/gemini-api/docs/rate-limits
+  model: "gemini-3.8-flash"   # vérifiez le modèle gratuit le plus généreux sur https://ai.google.dev/gemini-api/docs/rate-limits
   max_calls_per_run: 40            # plafond par exécution pour rester dans le quota gratuit
   seconds_between_calls: 6.5       # ~9 requêtes/minute
 
