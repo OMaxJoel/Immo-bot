@@ -44,6 +44,9 @@ sources:
   - {name: "L'Officiel de l'Immobilier", type: html, enabled: true, url: "https://officielimmobilier.net"}
   - {name: "Moboo", type: html, enabled: true, url: "https://moboo.ci"}
   - {name: "Macaci", type: html, enabled: true, url: "https://macaci.com"}
+  - {name: "caza", type: html, enabled: true, url: "https://caza.ci"}
+  - {name: "ivoiredomi", type: html, enabled: true, url: "https://ivoiredomi.ci"}
+  - {name: "Vyroom", type: html, enabled: true, url: "https://vyroom.io"}
   # --- C. Agences ---
   - {name: "ISIS Immobilier", type: html, enabled: true, url: "https://isis-immobilier.com"}
   - {name: "H&A Properties", type: html, enabled: true, url: "https://ha-properties.com"}
